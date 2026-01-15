@@ -1,0 +1,114 @@
+app-id: net.fhannenheim.musicfetch
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+base: com.system76.Cosmic.BaseApp
+base-version: stable
+command: musicfetch_gui
+
+finish-args:
+  # Wayland access
+  - --socket=wayland
+  # X11 Fallback
+  - --share=ipc
+  - --socket=fallback-x11
+  # Network for downloads
+  - --share=network
+  # Home directory access for saving photos/videos
+  - --filesystem=xdg-music:rw
+  # flathub-linter: skip=finish-args-unnecessary-xdg-config-cosmic-rw-access
+  - --filesystem=xdg-config/cosmic:rw
+  # D-Bus access for COSMIC config daemon (live theme/config updates)
+  # The wildcard is needed because the settings daemon creates dynamic config proxy
+  # names like com.system76.CosmicSettingsDaemon.Config.com.system76.CosmicTheme.Dark.V1
+  - --talk-name=com.system76.CosmicSettingsDaemon
+  - --talk-name=com.system76.CosmicSettingsDaemon.*
+  # Needed to open the directory the songs are downloaded to
+  # xdg portal can only open the top-level dir in the document portal
+  - --talk-name=org.freedesktop.FileManager1
+
+modules:
+  - name: deno
+    buildsystem: simple
+    build-commands:
+      - install -Dt /app/bin deno
+    sources:
+      - type: archive
+        url: >-
+          https://github.com/denoland/deno/releases/download/v2.6.4/deno-x86_64-unknown-linux-gnu.zip
+        sha256: 9100bbd0450c17b82002d3948bb8e7e1953c9e6506e63b586e2daa4042eca7f6
+        x-checker-data:
+          type: json
+          url: 'https://api.github.com/repos/denoland/deno/releases/latest'
+          version-query: .tag_name
+          url-query: >-
+            .assets[] | select(.name ==
+            "deno-x86_64-unknown-linux-gnu.zip").browser_download_url
+        only-arches:
+          - x86_64
+      - type: archive
+        url: >-
+          https://github.com/denoland/deno/releases/download/v2.6.4/deno-aarch64-unknown-linux-gnu.zip
+        sha256: dafb54c5454d7fcca81305215442e832e0c34e90b76a2e9a31d0676cbb06bfc6
+        x-checker-data:
+          type: json
+          url: 'https://api.github.com/repos/denoland/deno/releases/latest'
+          version-query: .tag_name
+          url-query: >-
+            .assets[] | select(.name ==
+            "deno-aarch64-unknown-linux-gnu.zip").browser_download_url
+        only-arches:
+          - aarch64
+  - name: yt-dlp-ejs
+    buildsystem: simple
+    build-commands:
+      - pip3 install --prefix=/app "$(echo *.whl)"
+    sources:
+      - type: file
+        url: >-
+          https://files.pythonhosted.org/packages/9d/0d/1f0d7a735ca60b87953271b15d00eff5eef05f6118390ddf6f81982526ed/yt_dlp_ejs-0.3.2-py3-none-any.whl
+        sha256: f2dc6b3d1b909af1f13e021621b0af048056fca5fb07c4db6aa9bbb37a4f66a9
+        x-checker-data:
+          type: pypi
+          name: yt-dlp-ejs
+          packagetype: bdist_wheel
+  - name: yt-dlp
+    buildsystem: simple
+    build-commands:
+      - 'pip3 install --no-dependencies --prefix=/app "$(echo *.whl)[default]"'
+    sources:
+      - type: file
+        url: >-
+          https://files.pythonhosted.org/packages/6e/2f/98c3596ad923f8efd32c90dca62e241e8ad9efcebf20831173c357042ba0/yt_dlp-2025.12.8-py3-none-any.whl
+        sha256: 36e2584342e409cfbfa0b5e61448a1c5189e345cf4564294456ee509e7d3e065
+        x-checker-data:
+          type: pypi
+          name: yt-dlp
+          packagetype: bdist_wheel
+  - name: musicfetch
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/rust-stable/bin
+      env:
+        CARGO_HOME: /run/build/musicfetch/cargo
+        CARGO_TARGET_DIR: /run/build/musicfetch/target
+    build-commands:
+      # Build the application with cargo (version is passed via .flatpak-version file)
+      - |
+        cargo --offline fetch --manifest-path Cargo.toml --verbose
+        cargo --offline build --release --verbose
+      # Install the binary
+      - install -Dm755 target/release/musicfetch_gui -t /app/bin/
+      # Install desktop file
+      - install -Dm644 resources/net.fhannenheim.musicfetch.desktop -t /app/share/applications/
+      # Install icon
+      - install -Dm644 resources/icons/hicolor/scalable/apps/net.fhannenheim.musicfetch.svg -t /app/share/icons/hicolor/scalable/apps/
+      # Install metainfo
+      - install -Dm644 resources/net.fhannenheim.musicfetch.metainfo.xml -t /app/share/metainfo/
+    sources:
+      - type: git
+        url: https://codeberg.org/Frieder_Hannenheim/musicfetch-ng.git
+        tag: 1.0.0
+      - cargo-sources.json
