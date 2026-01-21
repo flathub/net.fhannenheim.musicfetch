@@ -37,11 +37,11 @@ modules:
     sources:
       - type: archive
         url: >-
-          https://github.com/denoland/deno/releases/download/v2.6.4/deno-x86_64-unknown-linux-gnu.zip
-        sha256: 9100bbd0450c17b82002d3948bb8e7e1953c9e6506e63b586e2daa4042eca7f6
+          https://github.com/denoland/deno/releases/download/v2.6.5/deno-x86_64-unknown-linux-gnu.zip
+        sha256: e0f109b9ae6d828512bdbfc0524779ea42d7c117efd351860589c07506803436
         x-checker-data:
           type: json
-          url: 'https://api.github.com/repos/denoland/deno/releases/latest'
+          url: https://api.github.com/repos/denoland/deno/releases/latest
           version-query: .tag_name
           url-query: >-
             .assets[] | select(.name ==
@@ -50,11 +50,11 @@ modules:
           - x86_64
       - type: archive
         url: >-
-          https://github.com/denoland/deno/releases/download/v2.6.4/deno-aarch64-unknown-linux-gnu.zip
-        sha256: dafb54c5454d7fcca81305215442e832e0c34e90b76a2e9a31d0676cbb06bfc6
+          https://github.com/denoland/deno/releases/download/v2.6.5/deno-aarch64-unknown-linux-gnu.zip
+        sha256: 6613f3ccfc7e36d91b1a856d0a3d3a6d1286d09a9f0d775f99e50706e0ebc81d
         x-checker-data:
           type: json
-          url: 'https://api.github.com/repos/denoland/deno/releases/latest'
+          url: https://api.github.com/repos/denoland/deno/releases/latest
           version-query: .tag_name
           url-query: >-
             .assets[] | select(.name ==
@@ -77,7 +77,7 @@ modules:
   - name: yt-dlp
     buildsystem: simple
     build-commands:
-      - 'pip3 install --no-dependencies --prefix=/app "yt_dlp-2025.12.8-py3-none-any.whl[default]"'
+      - pip3 install --no-dependencies --prefix=/app "yt_dlp-2025.12.8-py3-none-any.whl[default]"
     sources:
       - type: file
         url: >-
@@ -104,7 +104,8 @@ modules:
       # Install desktop file
       - install -Dm644 resources/net.fhannenheim.musicfetch.desktop -t /app/share/applications/
       # Install icon
-      - install -Dm644 resources/icons/hicolor/scalable/apps/net.fhannenheim.musicfetch.svg -t /app/share/icons/hicolor/scalable/apps/
+      - install -Dm644 resources/icons/hicolor/scalable/apps/net.fhannenheim.musicfetch.svg
+        -t /app/share/icons/hicolor/scalable/apps/
       # Install metainfo
       - install -Dm644 resources/net.fhannenheim.musicfetch.metainfo.xml -t /app/share/metainfo/
     sources:
