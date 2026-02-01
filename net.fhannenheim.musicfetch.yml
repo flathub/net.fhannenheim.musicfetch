@@ -41,7 +41,7 @@ modules:
         sha256: c5626c9ee10e87201706fc5e64ed5a44b31527d98c130f164e149e1477c0a87d
         x-checker-data:
           type: json
-          url: 'https://api.github.com/repos/denoland/deno/releases/latest'
+          url: https://api.github.com/repos/denoland/deno/releases/latest
           version-query: .tag_name
           url-query: >-
             .assets[] | select(.name ==
@@ -54,7 +54,7 @@ modules:
         sha256: d2aedfa8c73e258cce78dc80e8d0e764a69d4a09d946d32f0c29eef46592b82f
         x-checker-data:
           type: json
-          url: 'https://api.github.com/repos/denoland/deno/releases/latest'
+          url: https://api.github.com/repos/denoland/deno/releases/latest
           version-query: .tag_name
           url-query: >-
             .assets[] | select(.name ==
@@ -81,8 +81,8 @@ modules:
     sources:
       - type: file
         url: >-
-            https://files.pythonhosted.org/packages/0f/1d/696538eb18a9da3dd4b7772162cb3a6537723a56426a7452b98201c04bfd/yt_dlp-2026.1.29-py3-none-any.whl
-        sha256: 08d0a25aead160c4787cbd0d2e82a269c75c8dbcfbfa729ce45ad52a8375fa1d
+          https://files.pythonhosted.org/packages/98/67/d76cddb63710f88fb53f287b713f268579a85bfc81caacbb1b6048b60b85/yt_dlp-2026.1.31-py3-none-any.whl
+        sha256: 81f8e70c0d111b9572420cfea0ba9b4c2ae783fa1a4237fa767eeb777d4c5a58
         x-checker-data:
           type: pypi
           name: yt-dlp
@@ -104,7 +104,8 @@ modules:
       # Install desktop file
       - install -Dm644 resources/net.fhannenheim.musicfetch.desktop -t /app/share/applications/
       # Install icon
-      - install -Dm644 resources/icons/hicolor/scalable/apps/net.fhannenheim.musicfetch.svg -t /app/share/icons/hicolor/scalable/apps/
+      - install -Dm644 resources/icons/hicolor/scalable/apps/net.fhannenheim.musicfetch.svg
+        -t /app/share/icons/hicolor/scalable/apps/
       # Install metainfo
       - install -Dm644 resources/net.fhannenheim.musicfetch.metainfo.xml -t /app/share/metainfo/
     sources:
