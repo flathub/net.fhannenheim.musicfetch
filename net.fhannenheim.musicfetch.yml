@@ -111,6 +111,6 @@ modules:
     sources:
       - type: git
         url: https://codeberg.org/Frieder_Hannenheim/musicfetch-ng.git
-        tag: 1.3.1
-        commit: 45c721ea8c53f3c17f1cc67ce6efb5bdb2f9e709
+        tag: 1.4.0
+        commit: 6de1d0a826c2dd9deef61a97711814befdd1f776
       - cargo-sources.json
