@@ -87,6 +87,13 @@ modules:
           type: pypi
           name: yt-dlp
           packagetype: bdist_wheel
+  - name: patch-yt-dlp
+    buildsystem: simple
+    build-commands:
+      - patch -p2 -d /app/lib/python3.13/site-packages/yt_dlp < fix_album_resolution.patch
+    sources:
+      - type: file
+        path: fix_album_resolution.patch
   - name: musicfetch
     buildsystem: simple
     build-options:
@@ -111,6 +118,6 @@ modules:
     sources:
       - type: git
         url: https://codeberg.org/Frieder_Hannenheim/musicfetch-ng.git
-        tag: 1.4.0
-        commit: 6de1d0a826c2dd9deef61a97711814befdd1f776
+        tag: 1.5.0
+        commit: 93e9e5e3a81b242259d7e41a74bb891d1d8115ed
       - cargo-sources.json
