@@ -37,8 +37,8 @@ modules:
     sources:
       - type: archive
         url: >-
-          https://github.com/denoland/deno/releases/download/v2.7.2/deno-x86_64-unknown-linux-gnu.zip
-        sha256: bc3af4d1bedd7893664b925c0f39fb08f7b12242e57ed4acdc0cf64540b4449c
+          https://github.com/denoland/deno/releases/download/v2.7.4/deno-x86_64-unknown-linux-gnu.zip
+        sha256: aef56590931e785af10bdab2077a2a01344b620c78b7086b88ebca73962ef25d
         x-checker-data:
           type: json
           url: https://api.github.com/repos/denoland/deno/releases/latest
@@ -50,8 +50,8 @@ modules:
           - x86_64
       - type: archive
         url: >-
-          https://github.com/denoland/deno/releases/download/v2.6.8/deno-aarch64-unknown-linux-gnu.zip
-        sha256: 09a0a800be639986515540ddae2f2752625ed412f63d36c7152c2a72ee78c2d7
+          https://github.com/denoland/deno/releases/download/v2.7.4/deno-aarch64-unknown-linux-gnu.zip
+        sha256: d2b99d1c072cab6ec8ececda1a1bd5889a9ea5217fafd9a9a9f5b0e56ef5e9cd
         x-checker-data:
           type: json
           url: https://api.github.com/repos/denoland/deno/releases/latest
