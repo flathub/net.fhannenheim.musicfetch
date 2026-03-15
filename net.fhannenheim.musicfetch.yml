@@ -39,26 +39,12 @@ modules:
         url: >-
           https://github.com/denoland/deno/releases/download/v2.7.5/deno-x86_64-unknown-linux-gnu.zip
         sha256: fd0a9e6cf085acb861b67577a13bfd0b1829e1c6d6a6dcfd35bcb8f05c973a47
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/denoland/deno/releases/latest
-          version-query: .tag_name
-          url-query: >-
-            .assets[] | select(.name ==
-            "deno-x86_64-unknown-linux-gnu.zip").browser_download_url
         only-arches:
           - x86_64
       - type: archive
         url: >-
           https://github.com/denoland/deno/releases/download/v2.7.5/deno-aarch64-unknown-linux-gnu.zip
         sha256: 69259408777465378ad78ea97c3ec6722704a93caabdb8d272b36d93d8025101
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/denoland/deno/releases/latest
-          version-query: .tag_name
-          url-query: >-
-            .assets[] | select(.name ==
-            "deno-aarch64-unknown-linux-gnu.zip").browser_download_url
         only-arches:
           - aarch64
   - name: yt-dlp-ejs
@@ -87,13 +73,6 @@ modules:
           type: pypi
           name: yt-dlp
           packagetype: bdist_wheel
-  - name: patch-yt-dlp
-    buildsystem: simple
-    build-commands:
-      - patch -p2 -d /app/lib/python3.13/site-packages/yt_dlp < fix_album_resolution.patch
-    sources:
-      - type: file
-        path: fix_album_resolution.patch
   - name: musicfetch
     buildsystem: simple
     build-options:
